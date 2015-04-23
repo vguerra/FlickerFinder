@@ -29,15 +29,17 @@ class ViewController: UIViewController {
     var urlString: String {
         var result = ""
         for (varName, value) in self.keyValuePairs {
-            result += "\(varName)=\(value)&"
+            let encodedValue = value.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            result += "\(varName)=\(encodedValue)&"
         }
         return "\(self.baseURL)?\(result)"
     }
     
     @IBAction func searchPhotosByPhraseTouchUp(sender: UIButton) {
         let session = NSURLSession.sharedSession()
-        let urlComponent = NSURLComponents(string: urlString)
-        let request = NSURLRequest(URL: urlComponent!.URLRelativeToURL(nil)!)
+        println("\(urlString)")
+        let url = NSURL(string: urlString)!
+        let request = NSURLRequest(URL: url)
 
         let task = session.dataTaskWithRequest(request) {data, response, downloadError in
         
