@@ -63,6 +63,9 @@
                                             <constraint firstAttribute="width" constant="48" id="vaY-hd-WC2"/>
                                         </constraints>
                                         <state key="normal" image="search-icon-48.png"/>
+                                        <connections>
+                                            <action selector="searchPhotosByPhraseTouchUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="S8p-4R-gp8"/>
+                                        </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qOl-dK-SOS" userLabel="Search LatLong Button">
                                         <rect key="frame" x="512" y="65" width="48" height="48"/>
@@ -186,8 +189,6 @@
                         <outlet property="latitudeText" destination="0cf-GH-rHi" id="Q9z-Ef-XDN"/>
                         <outlet property="longitudText" destination="mvk-UP-60f" id="J05-hv-Jmo"/>
                         <outlet property="phraseText" destination="Bh8-Yc-oNR" id="hnw-tD-0bf"/>
-                        <outlet property="searchFlickerByLatLong" destination="qOl-dK-SOS" id="UVK-Wb-Z8b"/>
-                        <outlet property="searchFlickerByPhrase" destination="yP9-Gz-crs" id="n1Y-ON-7r2"/>
                         <outlet property="statusText" destination="f2K-dN-RPQ" id="yqS-ee-msM"/>
                     </connections>
                 </viewController>
