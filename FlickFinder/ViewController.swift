@@ -22,6 +22,8 @@ class ViewController: UIViewController {
         "method": "flickr.photos.search",
         "api_key": "***REMOVED***",
         "text": "baby+asian+elephant",
+        "safe_search": "1",
+        "extras": "url_m",
         "format": "json",
         "nojsoncallback": "1"
     ]
@@ -49,9 +51,18 @@ class ViewController: UIViewController {
                 var parsingError: NSError? = nil
                 let parsedResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data,
                     options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
-                if let photosDictionary = parsedResult.valueForKey("photos") as? NSDictionary {
-                    if let photoArray = photosDictionary.valueForKey("photo") as? [[String: AnyObject]] {
-                            println("\(photoArray)")
+                if let photosDictionary = parsedResult.valueForKey("photos") as? [String: AnyObject] {
+                    if let photoArray = photosDictionary["photo"] as? [[String: AnyObject]] {
+                            println("\(photoArray.count)")
+                        let index = Int(arc4random_uniform(UInt32(photoArray.count)))
+                        let photo = photoArray[index] as [String: AnyObject]
+                        println(photo["url_m"] as! String)
+                        let imageURL = NSURL(string: photo["url_m"] as! String)
+                        if let imageData = NSData(contentsOfURL: imageURL!) {
+                            println("printing image")
+                        } else {
+                            println("no image to print")
+                        }
                     }
                 }
             }
