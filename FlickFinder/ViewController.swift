@@ -24,6 +24,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var latitudeText: UITextField!
     @IBOutlet weak var longitudText: UITextField!
     @IBOutlet weak var statusText: UILabel!
+    @IBOutlet weak var searchFlickerLabel: UILabel!
     
     // MARK: View lifecycle
     
@@ -48,10 +49,12 @@ class ViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func handleTap(recognizer: UITapGestureRecognizer) {
-        println("screen was tapped")
+        self.view.endEditing(true)
     }
     
     @IBAction func searchPhotosByPhraseTouchUp(sender: UIButton) {
+        self.dismissAnyVisibleKeyboards()
+
         let keyValuePairs = [
             "method": METHOD_NAME,
             "api_key": API_KEY,
@@ -61,14 +64,16 @@ class ViewController: UIViewController {
             "format": DATA_FORMAT,
             "nojsoncallback": NO_JSON_CALLBACK
         ]
+        
+
         searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
     }
     
     // MARK: Keyboard notifications
     func subscribeToKeyBoardNotifications() {
         let notificationCenter = NSNotificationCenter.defaultCenter()
-        notificationCenter.addObserver(self, selector: Selector("keyBoardWillShow"), name: UIKeyboardWillShowNotification, object: nil)
-        notificationCenter.addObserver(self, selector: "keyBoardWillHide", name: UIKeyboardWillHideNotification, object: nil)
+        notificationCenter.addObserver(self, selector: Selector("keyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        notificationCenter.addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeFromKeyBoardNotifications() {
@@ -78,11 +83,17 @@ class ViewController: UIViewController {
     }
     
     func keyboardWillShow(notification: NSNotification) {
-    
+        if FlickerImage.image != nil {
+            searchFlickerLabel.alpha = 0.0
+        }
+        self.view.frame.origin.y -= getKeyboardHeight(notification)/2
     }
     
     func keyboardWillHide(notification: NSNotification) {
-    
+        if FlickerImage.image != nil {
+            searchFlickerLabel.alpha = 1.0
+        }
+        self.view.frame.origin.y += getKeyboardHeight(notification)/2
     }
     
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
@@ -126,7 +137,9 @@ class ViewController: UIViewController {
                                     self.statusText.text = title
                                 }
                             } else {
-                                println("no image to print")
+                                dispatch_async(dispatch_get_main_queue()) {
+                                    self.statusText.text = "No fotos found!"
+                                }
                             }
                         }
                     } else {
@@ -146,6 +159,14 @@ class ViewController: UIViewController {
             result.append("\(varName)=\(encodedValue)")
         }
         return (!result.isEmpty ? "?" : "") + join("&", result)
+    }
+}
+
+extension ViewController {
+    func dismissAnyVisibleKeyboards() {
+        if phraseText.isFirstResponder() || latitudeText.isFirstResponder() || longitudText.isFirstResponder() {
+            self.view.endEditing(true)
+        }
     }
 }
 
