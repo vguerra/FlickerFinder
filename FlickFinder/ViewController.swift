@@ -62,43 +62,42 @@ class ViewController: UIViewController {
         
         if phraseText.text.isEmpty {
             showErrorMessage("Can't search for empty phrase!")
-            return
+        } else {
+            showErrorMessage("Searching...")
+        
+            let keyValuePairs = [
+                "method": METHOD_NAME,
+                "api_key": API_KEY,
+                "text": phraseText.text,
+                "safe_search": SAFE_SEARCH,
+                "extras": EXTRAS,
+                "format": DATA_FORMAT,
+                "nojsoncallback": NO_JSON_CALLBACK
+            ]
+            
+            
+            searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
         }
-        
-        let keyValuePairs = [
-            "method": METHOD_NAME,
-            "api_key": API_KEY,
-            "text": phraseText.text,
-            "safe_search": SAFE_SEARCH,
-            "extras": EXTRAS,
-            "format": DATA_FORMAT,
-            "nojsoncallback": NO_JSON_CALLBACK
-        ]
-        
-
-        searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
     }
     
     @IBAction func searchPhotosByLatitudLongitudeTouchUp(sender: UIButton) {
         self.dismissAnyVisibleKeyboards()
 
-        if !(isValidLatitude() && isValidLongitude()) {
-            return
+        if (isValidLatitude() && isValidLongitude()) {
+            showErrorMessage("Searching...")
+            let keyValuePairs = [
+                "method": METHOD_NAME,
+                "api_key": API_KEY,
+                "bbox": computeBBox(),
+                "safe_search": SAFE_SEARCH,
+                "extras": EXTRAS,
+                "format": DATA_FORMAT,
+                "nojsoncallback": NO_JSON_CALLBACK
+            ]
+            
+            
+            searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
         }
-        
-        let keyValuePairs = [
-            "method": METHOD_NAME,
-            "api_key": API_KEY,
-            "bbox": computeBBox(),
-            "safe_search": SAFE_SEARCH,
-            "extras": EXTRAS,
-            "format": DATA_FORMAT,
-            "nojsoncallback": NO_JSON_CALLBACK
-        ]
-        
-        
-        searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
-    
     }
     
     
