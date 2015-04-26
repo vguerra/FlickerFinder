@@ -27,7 +27,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchFlickerLabel: UILabel!
     
     // MARK: View lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -47,7 +46,6 @@ class ViewController: UIViewController {
     }
     
     // MARK: Actions
-    
     @IBAction func handleTap(recognizer: UITapGestureRecognizer) {
         self.view.endEditing(true)
     }
@@ -101,8 +99,7 @@ class ViewController: UIViewController {
         return keyboardSize.CGRectValue().height
     }
     
-    // MARK: All regarding http request 
-    
+    // MARK: All things regarding http request 
     func searchFlickerPhotoWithArguments(#methodArguments: [String : AnyObject]) {
         let session = NSURLSession.sharedSession()
         let urlString = BASE_URL + escapedParameters(methodArguments)
