@@ -32,16 +32,16 @@
                                 </variation>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mzv-MB-6LH" userLabel="Image Container">
-                                <rect key="frame" x="16" y="82" width="568" height="267"/>
+                                <rect key="frame" x="16" y="70" width="568" height="279"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search for a Flicker" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kGD-rj-OMR">
-                                        <rect key="frame" x="195" y="122" width="179" height="24"/>
+                                        <rect key="frame" x="195" y="128" width="179" height="24"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
                                         <color key="textColor" red="0.86666666670000003" green="0.58431372550000005" blue="0.2666666667" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BpX-ge-ZFH">
-                                        <rect key="frame" x="1" y="1" width="568" height="267"/>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BpX-ge-ZFH">
+                                        <rect key="frame" x="1" y="1" width="568" height="279"/>
                                     </imageView>
                                 </subviews>
                                 <constraints>
@@ -158,19 +158,20 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.53333333333333333" blue="0.69803921568627447" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="dTc-8N-qKM" secondAttribute="centerX" id="0vO-Ky-M5r"/>
                             <constraint firstItem="mzv-MB-6LH" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="8G3-3L-FOT"/>
-                            <constraint firstItem="mzv-MB-6LH" firstAttribute="top" secondItem="dTc-8N-qKM" secondAttribute="bottom" constant="20" id="9Ag-rI-iJg"/>
+                            <constraint firstItem="mzv-MB-6LH" firstAttribute="top" secondItem="dTc-8N-qKM" secondAttribute="bottom" constant="8" symbolic="YES" id="9Ag-rI-iJg"/>
                             <constraint firstItem="mzv-MB-6LH" firstAttribute="leading" secondItem="Yjh-JH-hGE" secondAttribute="leading" id="IUX-Vl-pg0"/>
                             <constraint firstItem="mzv-MB-6LH" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="QqW-XV-6A2"/>
                             <constraint firstItem="dTc-8N-qKM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="U1U-v6-4o8"/>
                             <constraint firstAttribute="centerX" secondItem="dTc-8N-qKM" secondAttribute="centerX" id="UYz-8V-JRT"/>
-                            <constraint firstItem="mzv-MB-6LH" firstAttribute="centerX" secondItem="dTc-8N-qKM" secondAttribute="centerX" constant="-0.5" id="XT2-cR-IVp"/>
+                            <constraint firstItem="mzv-MB-6LH" firstAttribute="centerX" secondItem="dTc-8N-qKM" secondAttribute="centerX" id="XT2-cR-IVp"/>
                             <constraint firstItem="dTc-8N-qKM" firstAttribute="top" relation="lessThanOrEqual" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="aMr-6E-Xba"/>
                             <constraint firstItem="dTc-8N-qKM" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="cSB-Lq-not"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="mzv-MB-6LH" secondAttribute="bottom" constant="251" id="jNh-TR-DUO"/>
-                            <constraint firstItem="Yjh-JH-hGE" firstAttribute="top" secondItem="mzv-MB-6LH" secondAttribute="bottom" constant="8" id="oiX-jf-ie4"/>
+                            <constraint firstItem="Yjh-JH-hGE" firstAttribute="top" secondItem="mzv-MB-6LH" secondAttribute="bottom" constant="8" symbolic="YES" id="oiX-jf-ie4"/>
                             <constraint firstItem="dTc-8N-qKM" firstAttribute="top" relation="lessThanOrEqual" secondItem="jyV-Pf-zRb" secondAttribute="bottom" constant="8" id="rdr-Np-1gV"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Yjh-JH-hGE" secondAttribute="bottom" constant="20" id="uyy-r1-ofE"/>
                             <constraint firstItem="mzv-MB-6LH" firstAttribute="trailing" secondItem="Yjh-JH-hGE" secondAttribute="trailing" id="zap-2V-gII"/>
@@ -183,16 +184,25 @@
                                 <exclude reference="rdr-Np-1gV"/>
                             </mask>
                         </variation>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="rFE-Be-uah" appends="YES" id="NK4-Hc-V47"/>
+                        </connections>
                     </view>
                     <connections>
                         <outlet property="FlickerImage" destination="BpX-ge-ZFH" id="5Yh-dk-TRK"/>
                         <outlet property="latitudeText" destination="0cf-GH-rHi" id="Q9z-Ef-XDN"/>
                         <outlet property="longitudText" destination="mvk-UP-60f" id="J05-hv-Jmo"/>
                         <outlet property="phraseText" destination="Bh8-Yc-oNR" id="hnw-tD-0bf"/>
+                        <outlet property="searchFlickerLabel" destination="kGD-rj-OMR" id="Qge-Fg-q8Q"/>
                         <outlet property="statusText" destination="f2K-dN-RPQ" id="yqS-ee-msM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="rFE-Be-uah">
+                    <connections>
+                        <action selector="handleTap:" destination="vXZ-lx-hvc" id="HSX-Fu-q98"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="244" y="337"/>
         </scene>
