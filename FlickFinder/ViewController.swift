@@ -59,7 +59,12 @@ class ViewController: UIViewController {
     
     @IBAction func searchPhotosByPhraseTouchUp(sender: UIButton) {
         self.dismissAnyVisibleKeyboards()
-
+        
+        if phraseText.text.isEmpty {
+            showErrorMessage("Can't search for empty phrase!")
+            return
+        }
+        
         let keyValuePairs = [
             "method": METHOD_NAME,
             "api_key": API_KEY,
@@ -76,6 +81,10 @@ class ViewController: UIViewController {
     
     @IBAction func searchPhotosByLatitudLongitudeTouchUp(sender: UIButton) {
         self.dismissAnyVisibleKeyboards()
+
+        if !(isValidLatitude() && isValidLongitude()) {
+            return
+        }
         
         let keyValuePairs = [
             "method": METHOD_NAME,
@@ -126,7 +135,33 @@ class ViewController: UIViewController {
     }
     
     // MARK: All things regarding http request
+    
     func searchFlickerPhotoWithArguments(#methodArguments: [String : AnyObject]) {
+        let session = NSURLSession.sharedSession()
+        let urlString = BASE_URL + escapedParameters(methodArguments)
+        let url = NSURL(string: urlString)!
+        let request = NSURLRequest(URL: url)
+        
+        let task = session.dataTaskWithRequest(request) { data, response, downloadError in
+            if let error = downloadError {
+                println("Error")
+            } else {
+                var parsingError: NSError? = nil
+                let parsedResult: AnyObject! = NSJSONSerialization.JSONObjectWithData(data,
+                    options: NSJSONReadingOptions.AllowFragments, error: &parsingError)
+                if let photosDictionary = parsedResult.valueForKey("photos") as? [String: AnyObject] {
+                    if let totalPages = photosDictionary["pages"] as? Int {
+                        let minPages = min(totalPages, 40)
+                        let randomPage = Int(arc4random_uniform(UInt32(minPages))) + 1
+                        self.searchFlickerPhotoWithArgumentsWithPage(methodArguments: methodArguments, pageNumber: randomPage)
+                    }
+                }
+            }
+        }
+        task.resume()
+    }
+    
+    func searchFlickerPhotoWithArgumentsWithPage(#methodArguments: [String : AnyObject], pageNumber: Int) {
         let session = NSURLSession.sharedSession()
         let urlString = BASE_URL + escapedParameters(methodArguments)
         let url = NSURL(string: urlString)!
@@ -196,6 +231,33 @@ class ViewController: UIViewController {
         let top_right_lon = min(longitude + BOX_HALF_SIZE, LON_MAX)
     
         return "\(bottom_left_lon),\(bottom_left_lat),\(top_right_lon),\(top_right_lat)"
+    }
+    
+    func isValidLatitude() -> Bool {
+        if latitudeText.text.isEmpty {
+            showErrorMessage("Please provide a Latitude between -90 and 90)")
+            return false
+        } else if let latitude = NSNumberFormatter().numberFromString(latitudeText.text) {
+            if -90.0 <= Double(latitude) && Double(latitude) <= 90.0 {
+                println("is valid")
+                return true
+            } else {
+                showErrorMessage("Latitud is a number but not betwenn -90 and 90")
+                return false
+            }
+        } else {
+            showErrorMessage("Latitud should be a number betwenn -90 and 90")
+            return false
+        }
+    }
+    
+    func isValidLongitude() -> Bool {
+        return true
+    }
+    
+    // Giving user's feedback
+    func showErrorMessage(textToShow: String) {
+        statusText.text = textToShow
     }
 }
 
