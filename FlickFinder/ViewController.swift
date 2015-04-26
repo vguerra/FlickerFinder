@@ -8,6 +8,7 @@
 
 import UIKit
 
+// CONSTANTS
 let BASE_URL = "https://api.flickr.com/services/rest/"
 let METHOD_NAME = "flickr.photos.search"
 let API_KEY = "***REMOVED***"
@@ -15,6 +16,12 @@ let EXTRAS = "url_m"
 let SAFE_SEARCH = "1"
 let DATA_FORMAT = "json"
 let NO_JSON_CALLBACK = "1"
+let LAT_MIN = -90.0
+let LAT_MAX = 90.0
+let LON_MIN = -180.0
+let LON_MAX = 180.0
+let BOX_HALF_SIZE = 1.0
+
 
 class ViewController: UIViewController {
 
@@ -67,6 +74,25 @@ class ViewController: UIViewController {
         searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
     }
     
+    @IBAction func searchPhotosByLatitudLongitudeTouchUp(sender: UIButton) {
+        self.dismissAnyVisibleKeyboards()
+        
+        let keyValuePairs = [
+            "method": METHOD_NAME,
+            "api_key": API_KEY,
+            "bbox": computeBBox(),
+            "safe_search": SAFE_SEARCH,
+            "extras": EXTRAS,
+            "format": DATA_FORMAT,
+            "nojsoncallback": NO_JSON_CALLBACK
+        ]
+        
+        
+        searchFlickerPhotoWithArguments(methodArguments: keyValuePairs)
+    
+    }
+    
+    
     // MARK: Keyboard notifications
     func subscribeToKeyBoardNotifications() {
         let notificationCenter = NSNotificationCenter.defaultCenter()
@@ -99,7 +125,7 @@ class ViewController: UIViewController {
         return keyboardSize.CGRectValue().height
     }
     
-    // MARK: All things regarding http request 
+    // MARK: All things regarding http request
     func searchFlickerPhotoWithArguments(#methodArguments: [String : AnyObject]) {
         let session = NSURLSession.sharedSession()
         let urlString = BASE_URL + escapedParameters(methodArguments)
@@ -156,6 +182,20 @@ class ViewController: UIViewController {
             result.append("\(varName)=\(encodedValue)")
         }
         return (!result.isEmpty ? "?" : "") + join("&", result)
+    }
+    
+    // MARK: Utilities
+    // computing BBox value
+    func computeBBox() -> String {
+        let latitude = (latitudeText.text as NSString).doubleValue
+        let longitude = (longitudText.text as NSString).doubleValue
+    
+        let bottom_left_lat = max(latitude - BOX_HALF_SIZE, LAT_MIN)
+        let bottom_left_lon = max(longitude - BOX_HALF_SIZE, LON_MIN)
+        let top_right_lat = min(latitude + BOX_HALF_SIZE, LAT_MAX)
+        let top_right_lon = min(longitude + BOX_HALF_SIZE, LON_MAX)
+    
+        return "\(bottom_left_lon),\(bottom_left_lat),\(top_right_lon),\(top_right_lat)"
     }
 }
 

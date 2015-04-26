@@ -74,6 +74,9 @@
                                             <constraint firstAttribute="height" constant="48" id="NLI-Nf-IBg"/>
                                         </constraints>
                                         <state key="normal" image="search-icon-48.png"/>
+                                        <connections>
+                                            <action selector="searchPhotosByLatitudLongitudeTouchUp:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="4vy-nc-E3T"/>
+                                        </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Latitude" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uFq-5B-OkE">
                                         <rect key="frame" x="95" y="112" width="66" height="22"/>
