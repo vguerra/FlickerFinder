@@ -11,7 +11,7 @@ import UIKit
 // CONSTANTS
 let BASE_URL = "https://api.flickr.com/services/rest/"
 let METHOD_NAME = "flickr.photos.search"
-let API_KEY = "***REMOVED***"
+let API_KEY = "api_key"
 let EXTRAS = "url_m"
 let SAFE_SEARCH = "1"
 let DATA_FORMAT = "json"
@@ -238,7 +238,6 @@ class ViewController: UIViewController {
             return false
         } else if let latitude = NSNumberFormatter().numberFromString(latitudeText.text) {
             if -90.0 <= Double(latitude) && Double(latitude) <= 90.0 {
-                println("is valid")
                 return true
             } else {
                 showErrorMessage("Latitud is a number but not betwenn -90 and 90")
